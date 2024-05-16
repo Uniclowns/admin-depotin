@@ -34,6 +34,8 @@ class CetakController extends Controller
                 ->selectRaw('DATE_FORMAT(MAX(created_at), "%Y-%m-%d") as end_date')
                 ->selectRaw('SUM(total_harga) as total_harga')
                 ->selectRaw('COUNT(user_id) as total_user')
+                ->selectRaw('CASE WHEN SUM(jumlah_pemesanan) > COUNT(id) THEN (COUNT(id) * 400) + (SUM(jumlah_pemesanan) * 1000) ELSE (SUM(jumlah_pemesanan) * 1000) + (COUNT(id) * 400) END AS keuntungan')
+                ->selectRaw('CASE WHEN SUM(jumlah_pemesanan) > COUNT(id) THEN (COUNT(id) * 8000) + (SUM(jumlah_pemesanan) * 2000) ELSE (SUM(jumlah_pemesanan) * 2000) + (COUNT(id) * 8000) END AS netto')
                 ->groupBy('week')
                 ->when(request('month'), function ($query, $month) {
                     return $query->whereMonth('created_at', $month);

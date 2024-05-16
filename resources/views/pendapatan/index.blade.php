@@ -178,7 +178,7 @@
                     <th class="px-6 py-3 pl-2 font-bold text-center border-b text-sm">Minggu ke-</th>
                     <th class="px-6 py-3 pl-2 font-bold text-center  border-b text-sm">Tanggal</th>
                     <th class="px-6 py-3 pl-2 font-bold text-center  border-b text-sm">Jumlah Galon</th>
-                    <th class="px-6 py-3 pl-2 font-bold text-center  border-b text-sm">Jumlah Pelanggan</th>
+                    <th class="px-6 py-3 pl-2 font-bold text-center  border-b text-sm">Jumlah Pesanan</th>
                     <th class="px-6 py-3 pl-2 font-bold text-center  border-b text-sm">Total Pendapatan</th>
                     <th class="px-6 py-3 pl-2 font-bold text-center  border-b text-sm">Keuntungan</th>
                 </tr>
@@ -189,8 +189,9 @@
                         <td class="p-2 text-center">{{ $loop->iteration }}</td>
                         <td class="p-2 font-semibold text-center">{{ date('d/m/Y', strtotime($laporan->start_date)) }}</td>
                         <td class="p-2 font-semibold text-center">{{ $laporan->total_pemesanan }} Galon</td>
-                        <td class="p-2 font-semibold text-center">{{ $laporan->total_user }} Pelanggan</td>
+                        <td class="p-2 font-semibold text-center">{{ $laporan->total_user }} Pesanan</td>
                         <td class="p-2 font-semibold text-center">Rp{{ number_format($laporan->total_harga, 0) }}</td>
+                        <td class="p-2 font-semibold text-center">Rp{{ number_format($laporan->keuntungan, 0) }}</td>
                     </tr>
                 @endforeach
                 <tr class="border-t-4 border-red-500">
@@ -198,7 +199,8 @@
                     <td></td>
                     <td class="text-center font-extrabold text-[#202224]">{{ $laporans->sum('total_pemesanan') }} Galon</td>
                     <td class="text-center font-extrabold text-[#202224]">{{ $laporans->sum('total_user') }}    Pelanggan</td>
-                    <td class="text-center font-extrabold text-[#202224]">Rp{{ number_format($laporan->sum('total_harga'), 0) }}</td>
+                    <td class="text-center font-extrabold text-[#202224]">Rp{{ number_format($laporans->sum('total_harga'), 0) }}</td>
+                    <td class="text-center font-extrabold text-[#202224]">Rp{{ number_format($laporans->sum('keuntungan'), 0) }}</td>
                 </tr>
                 </tbody>
             </table>

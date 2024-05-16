@@ -1,6 +1,6 @@
 @extends('main')
 @section('container')
-    <div class="container bg-[#DDE4FF] h-[120vh]">
+    <div class="container bg-[#DDE4FF] h-[140vh]">
         <h1 class="py-10 text-3xl ">Laporan Pendapatan</h1>
         <img src="/img/depotin.png" alt="depotin-logo" srcset="" class="w-36">
         <div class="flex py-6 justify-between max-w-[60%]">
@@ -36,6 +36,7 @@
                     <td class="p-2 font-semibold text-center">{{ $laporan->total_pemesanan }} Galon</td>
                     <td class="p-2 font-semibold text-center">{{ $laporan->total_user }} Pelanggan</td>
                     <td class="p-2 font-semibold text-center">Rp{{ number_format($laporan->total_harga, 0) }}</td>
+                    <td class="p-2 font-semibold text-center">Rp{{ number_format($laporan->keuntungan, 0) }}</td>
                 </tr>
             @endforeach
             </tbody>
@@ -48,7 +49,7 @@
                     <h4 class="text-sm font-semibold">Minggu ke-{{ $loop->iteration }}</h4>
                 @endforeach
                 <h4 class="text-sm font-semibold pt-20">Pengeluaran</h4>
-                <h4 class="text-lg font-bold pt-9">TOTAL PENGELUARAN</h4>
+                <h4 class="text-lg font-bold pt-9">TOTAL KEUNTUNGAN</h4>
             </div>
             <div>
                 @foreach($laporans as $laporan)
@@ -59,12 +60,12 @@
                     <i class="fa-solid fa-plus text-black"></i>
                 </div>
                     <h4 class="text-sm font-semibold">Rp{{ number_format($laporans->sum('total_harga'), 0) }}</h4>
-                    <h4 class="text-sm font-semibold pt-4">Rp2,512,156</h4>
+                    <h4 class="text-sm font-semibold pt-4">Rp{{ number_format($laporans->sum('total_harga') - $laporans->sum('keuntungan'), 0) }}</h4>
                     <div class="flex">
                         <hr class="bg-black w-24 h-px">
                         <i class="fa-solid fa-minus text-black"></i>
                     </div>
-                    <h4 class="text-base font-bold">Rp23,050,768</h4>
+                    <h4 class="text-base font-bold">Rp{{ number_format($laporans->sum('total_harga') - ($laporans->sum('total_harga') - $laporans->sum('keuntungan')), 0) }}</h4>
             </div>
         </div>
     </div>

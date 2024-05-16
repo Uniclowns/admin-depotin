@@ -8,7 +8,7 @@
             <div class="bg-white p-2">
                 <div class="flex ">
                     <div class="px-2">
-                        <h4 class="text-base">Laporan #1</h4>
+                        <h4 class="text-base">Laporan #{{ $reportNumber }}</h4>
                         <h4 class="text-base">Tanggal & Waktu</h4>
                     </div>
                     <div class="mx-2">

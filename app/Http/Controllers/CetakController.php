@@ -9,8 +9,23 @@ class CetakController extends Controller
 {
     public function cetak()
     {
+        // Ambil nilai sesi 'report_number' saat ini
+        $currentNumber = session('report_number');
+
+        // Tambahkan nilai sesi 'report_number'
+        session(['report_number' => $currentNumber + 1]);
+
+        // Jika sesi 'report_number' belum ada, set nilainya menjadi 1
+        if (!session()->has('report_number')) {
+            session(['report_number' => 1]);
+        }
+
+        // Ambil nilai sesi 'report_number'
+        $reportNumber = session('report_number');
+
         return view('pendapatan.cetak', [
             'active' => 'laporan',
+            'reportNumber' => $reportNumber,
             'today' => Carbon::now()->setTimezone('Asia/Jakarta'),
             'laporans' => Laporan::query()
                 ->selectRaw('WEEK(created_at) as week')

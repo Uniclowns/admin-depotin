@@ -7,6 +7,7 @@ use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -23,6 +24,11 @@ class DashboardController extends Controller
         $penjualanYesterday = Pesanan::whereDate('created_at', $yesterday)->sum('total_harga');
         $pendapatanHarian = Pesanan::whereDate('created_at', $today)->sum('total_harga');
         $pendapatanYesterday = Pesanan::whereDate('created_at', $yesterday)->sum('total_harga');
+        $penjualanByDate = DB::table('pesanan')
+            ->select(DB::raw('DATE(created_at) as tanggal'), DB::raw('SUM(total_harga) as total_penjualan'))
+            ->groupBy('tanggal')
+            ->get();
+
 
         if($userYesterday > 0)
         {
@@ -79,6 +85,7 @@ class DashboardController extends Controller
             'pesananCount' => $pesananCount,
             'penjualanCount' => $penjualanCount,
             'pendapatanCount' => $pendapatanCount,
+            'penjualanAll' => $penjualanByDate,
         ]);
     }
 }

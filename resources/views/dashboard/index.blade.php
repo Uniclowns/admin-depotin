@@ -100,7 +100,7 @@
                         </div>
                     @elseif($penjualanToday == $penjualanYesterday)
                         <div class="flex items-center p-4">
-                            <img src="/img/trend-down.png" alt="" width="40" class="mr-2">
+                            <img src="/img/trend-up.png" alt="" width="40" class="mr-2">
                             <p class="font-semibold mt-4"><span>{{ number_format($penjualanCount, 1) }}%</span> Sama dari kemarin.</p>
                         </div>
                     @else
@@ -159,7 +159,7 @@
         <div class="flex ">
             <div class="w-full p-8 mr-3 bg-white rounded-lg mt-6 mb-16">
                 <h1 class="line mb-4 text-xl font-bold">Pendapat Harian</h1>
-                <canvas id="myCanvas2"></canvas>
+                <canvas id="myCanvas2" class="h-full"></canvas>
             </div>
 
             <div class="w-full p-8 bg-white rounded-lg mt-6 mb-16">
@@ -173,50 +173,60 @@
         "use strict";
 
         const ctx = document.getElementById("myCanvas").getContext("2d");
+        var labels = [@foreach($penjualanAll as $penjualan) '{{ date('d', strtotime($penjualan->tanggal)) }}', @endforeach];
+        var data = [@foreach($penjualanAll as $penjualan) {{ $penjualan->total_penjualan }}, @endforeach];
 
         let config = {
             type: "line",
             data: {
-                labels: ["5k", "10k", "15k", "20k", "25k", "30k", "35k", "40k", "45k", "50k", "55k", "60k", ],
+                labels: labels,
                 datasets: [{
-                    label: "Current Ratio (Rp)",
-                    data: [20, 40, 60, 80, 100, 90, 70, 50, 10, 30, 40, 20],
+                    label: "Total Penjualan (Rp)",
+                    data: data,
                 }, ],
             },
         };
         new Chart(ctx, config);
 
         const chart2 = document.getElementById("myCanvas2").getContext("2d");
+        var labels2 = [@foreach($penjualanAll as $penjualan) '{{ date('D', strtotime($penjualan->tanggal)) }}', @endforeach];
 
         let data2 = {
             type: "bar",
             data: {
-                labels: ["2020", "2021", "2022"],
+                labels: labels2,
                 datasets: [{
-                    label: "Current Ratio (Rp)",
-                    data: [3.66, 4.13, 4.06],
-                }, ],
+                    label: "Pendapatan Harian (Rp)",
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
             },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
         };
         new Chart(chart2, data2);
 
         const chart3 = document.getElementById("myCanvas3").getContext("2d");
+        var datas3 = [{{ $users }}];
 
         let data3 = {
             type: "doughnut",
             data: {
                 labels: [
-                    'Red',
-                    'Blue',
-                    'Yellow'
+                    'Pengguna Aktif',
                 ],
                 datasets: [{
                     label: 'My First Dataset',
-                    data: [300, 50, 100],
+                    data: datas3,
                     backgroundColor: [
                         'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)'
                     ],
                     hoverOffset: 4
                 }]
